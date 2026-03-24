@@ -20,20 +20,32 @@ useSeoMeta({
 gsap.registerPlugin(ScrollTrigger);
 
 onMounted(() => {
-  gsap.to('.square', {
-    x: 200, 
-    duration: 1, 
-    rotation: 360, 
-    ease: 'expo-out', 
-    stagger: 0.1,
+  const tl = gsap.timeline({
     scrollTrigger: {
       trigger: '.square-list',
       markers: true,
-      start: 'top center'
-    },
+      start: 'top center',
+      end: 'bottom center',
+      scrub: true
+    }
   });
-});
 
+  tl.to('.square', {
+    x: 200,
+    duration: 1,
+    rotation: 360,
+    ease: 'expo-out',
+    stagger: 0.1,
+  });
+
+  tl.to('.square', {
+    y: -200,
+    duration: 1,
+    rotation: 360,
+    ease: 'expo-out',
+    stagger: 0.1,
+  }, '-=0.3');
+});
 
 console.log(page.value?.data.highlititedproject);
 </script>
