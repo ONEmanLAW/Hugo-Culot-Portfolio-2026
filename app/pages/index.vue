@@ -58,6 +58,7 @@ useSeoMeta({
 
   body {
     overflow-x: hidden;
+    background-color: black;
   }
 
   /* Nav */
@@ -98,5 +99,8 @@ useSeoMeta({
 
   .home-title {
     font-size: 128px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-weight: bold;
+    color: white;
   }
 </style>
