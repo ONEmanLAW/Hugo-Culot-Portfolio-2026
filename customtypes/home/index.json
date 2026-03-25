@@ -13,29 +13,6 @@
           "placeholder": ""
         }
       },
-      "description": {
-        "type": "StructuredText",
-        "config": {
-          "label": "Description",
-          "placeholder": "",
-          "allowTargetBlank": false,
-          "single": "strong,em"
-        }
-      },
-      "highlititedproject": {
-        "type": "Link",
-        "config": {
-          "label": "HighlititedProject",
-          "select": "document",
-          "repeat": false,
-          "customtypes": [
-            {
-              "id": "project",
-              "fields": ["title", "description"]
-            }
-          ]
-        }
-      },
       "slices": {
         "type": "Slices",
         "fieldset": "Slice Zone",

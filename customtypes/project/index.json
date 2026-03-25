@@ -12,10 +12,34 @@
           "label": "UID"
         }
       },
+      "image": {
+        "type": "Image",
+        "config": {
+          "label": "Image",
+          "constraint": {
+            "width": 300,
+            "height": 300
+          },
+          "thumbnails": [
+            {
+              "name": "banner",
+              "width": 1440,
+              "height": 600
+            }
+          ]
+        }
+      },
       "title": {
         "type": "Text",
         "config": {
           "label": "Title",
+          "placeholder": ""
+        }
+      },
+      "year": {
+        "type": "Text",
+        "config": {
+          "label": "Year",
           "placeholder": ""
         }
       },
@@ -26,6 +50,29 @@
           "placeholder": "",
           "allowTargetBlank": false,
           "single": "paragraph,strong,em"
+        }
+      },
+      "tags": {
+        "type": "Group",
+        "config": {
+          "label": "Tags",
+          "repeat": true,
+          "fields": {
+            "title": {
+              "type": "Text",
+              "config": {
+                "label": "Title",
+                "placeholder": ""
+              }
+            }
+          }
+        }
+      },
+      "number": {
+        "type": "Text",
+        "config": {
+          "label": "Number",
+          "placeholder": ""
         }
       },
       "slices": {

@@ -87,30 +87,6 @@ interface HomeDocumentData {
   title: prismic.KeyTextField;
 
   /**
-   * Description field in *Home*
-   *
-   * - **Field Type**: Rich Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: home.description
-   * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
-   */
-  description: prismic.RichTextField;
-
-  /**
-   * HighlititedProject field in *Home*
-   *
-   * - **Field Type**: Content Relationship
-   * - **Placeholder**: *None*
-   * - **API ID Path**: home.highlititedproject
-   * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
-   */
-  highlititedproject: ContentRelationshipFieldWithData<
-    [{ id: "project"; fields: ["title", "description"] }]
-  >;
-
-  /**
    * Slice Zone field in *Home*
    *
    * - **Field Type**: Slice Zone
@@ -165,12 +141,38 @@ interface HomeDocumentData {
 export type HomeDocument<Lang extends string = string> =
   prismic.PrismicDocumentWithoutUID<Simplify<HomeDocumentData>, "home", Lang>;
 
+/**
+ * Item in *Project → Tags*
+ */
+export interface ProjectDocumentDataTagsItem {
+  /**
+   * Title field in *Project → Tags*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: project.tags[].title
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  title: prismic.KeyTextField;
+}
+
 type ProjectDocumentDataSlicesSlice = never;
 
 /**
  * Content for Project documents
  */
 interface ProjectDocumentData {
+  /**
+   * Image field in *Project*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: project.image
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/image
+   */
+  image: prismic.ImageField<"banner">;
+
   /**
    * Title field in *Project*
    *
@@ -183,6 +185,17 @@ interface ProjectDocumentData {
   title: prismic.KeyTextField;
 
   /**
+   * Year field in *Project*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: project.year
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  year: prismic.KeyTextField;
+
+  /**
    * Description field in *Project*
    *
    * - **Field Type**: Rich Text
@@ -192,6 +205,28 @@ interface ProjectDocumentData {
    * - **Documentation**: https://prismic.io/docs/fields/rich-text
    */
   description: prismic.RichTextField;
+
+  /**
+   * Tags field in *Project*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: project.tags[]
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   */
+  tags: prismic.GroupField<Simplify<ProjectDocumentDataTagsItem>>;
+
+  /**
+   * Number field in *Project*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: project.number
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  number: prismic.KeyTextField;
 
   /**
    * Slice Zone field in *Project*
@@ -280,6 +315,7 @@ declare module "@prismicio/client" {
       HomeDocumentDataSlicesSlice,
       ProjectDocument,
       ProjectDocumentData,
+      ProjectDocumentDataTagsItem,
       ProjectDocumentDataSlicesSlice,
       AllDocumentTypes,
     };
