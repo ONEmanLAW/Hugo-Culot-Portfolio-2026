@@ -27,9 +27,12 @@ useSeoMeta({
 
 // Exemple
 // page?.data.highlighted_projects[0]?.projects?.data.title
+
 </script>
 
 <template>
+
+  <link rel="stylesheet" href="">
   <main>
     <nav>
       <NuxtLink to="/">Accueil</NuxtLink>
@@ -101,6 +104,6 @@ useSeoMeta({
     font-size: 128px;
     font-family: 'Bebas Neue', sans-serif;
     font-weight: bold;
-    color: white;
+    color: var(--color-white);
   }
 </style>

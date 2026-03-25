@@ -2,6 +2,8 @@ import { apiEndpoint, repositoryName } from "./slicemachine.config.json";
 
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
+
+  css: ["~/assets/variables.css"],
   devtools: { enabled: true },
   modules: ["@nuxtjs/prismic"],
 
