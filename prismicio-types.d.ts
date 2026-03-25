@@ -69,6 +69,34 @@ type ContentRelationshipFieldWithData<
   >;
 }[Exclude<TCustomType[number], string>["id"]];
 
+/**
+ * Item in *Home → Highlighted projects*
+ */
+export interface HomeDocumentDataHighlightedProjectsItem {
+  /**
+   * Projects field in *Home → Highlighted projects*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: home.highlighted_projects[].projects
+   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   */
+  projects: ContentRelationshipFieldWithData<
+    [
+      {
+        id: "project";
+        fields: [
+          "image",
+          "title",
+          "year",
+          "description",
+          { id: "tags"; fields: ["title"] },
+        ];
+      },
+    ]
+  >;
+}
+
 type HomeDocumentDataSlicesSlice = never;
 
 /**
@@ -85,6 +113,19 @@ interface HomeDocumentData {
    * - **Documentation**: https://prismic.io/docs/fields/text
    */
   title: prismic.KeyTextField;
+
+  /**
+   * Highlighted projects field in *Home*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: home.highlighted_projects[]
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   */
+  highlighted_projects: prismic.GroupField<
+    Simplify<HomeDocumentDataHighlightedProjectsItem>
+  >;
 
   /**
    * Slice Zone field in *Home*
@@ -218,17 +259,6 @@ interface ProjectDocumentData {
   tags: prismic.GroupField<Simplify<ProjectDocumentDataTagsItem>>;
 
   /**
-   * Number field in *Project*
-   *
-   * - **Field Type**: Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: project.number
-   * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/fields/text
-   */
-  number: prismic.KeyTextField;
-
-  /**
    * Slice Zone field in *Project*
    *
    * - **Field Type**: Slice Zone
@@ -312,6 +342,7 @@ declare module "@prismicio/client" {
     export type {
       HomeDocument,
       HomeDocumentData,
+      HomeDocumentDataHighlightedProjectsItem,
       HomeDocumentDataSlicesSlice,
       ProjectDocument,
       ProjectDocumentData,

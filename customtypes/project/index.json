@@ -68,13 +68,6 @@
           }
         }
       },
-      "number": {
-        "type": "Text",
-        "config": {
-          "label": "Number",
-          "placeholder": ""
-        }
-      },
       "slices": {
         "type": "Slices",
         "fieldset": "Slice Zone",

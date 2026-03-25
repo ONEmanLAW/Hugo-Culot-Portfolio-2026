@@ -13,6 +13,38 @@
           "placeholder": ""
         }
       },
+      "highlighted_projects": {
+        "type": "Group",
+        "config": {
+          "label": "Highlighted projects",
+          "repeat": true,
+          "fields": {
+            "projects": {
+              "type": "Link",
+              "config": {
+                "label": "Projects",
+                "select": "document",
+                "repeat": false,
+                "customtypes": [
+                  {
+                    "id": "project",
+                    "fields": [
+                      "image",
+                      "title",
+                      "year",
+                      "description",
+                      {
+                        "id": "tags",
+                        "fields": ["title"]
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
       "slices": {
         "type": "Slices",
         "fieldset": "Slice Zone",
