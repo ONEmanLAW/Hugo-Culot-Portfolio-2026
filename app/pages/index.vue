@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { asImageSrc } from "@prismicio/client";
+import { asImageSrc, isFilled } from "@prismicio/client";
 import { components } from "~/slices";
+import TopProjectSection from "~/components/TopProjectSection.vue";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -15,6 +16,22 @@ useSeoMeta({
   description: page.value?.data.meta_description,
   ogDescription: page.value?.data.meta_description,
   ogImage: computed(() => asImageSrc(page.value?.data.meta_image)),
+});
+
+const highlightedProjects = computed(() => {
+  return page.value?.data.highlighted_projects ?? [];
+});
+
+const firstHighlightedProject = computed(() => {
+  const firstItem = highlightedProjects.value[0];
+
+  if (!firstItem) return null;
+
+  if (isFilled.contentRelationship(firstItem.projects)) {
+    return firstItem.projects.data;
+  }
+
+  return null;
 });
 
 gsap.registerPlugin(ScrollTrigger);
@@ -53,7 +70,6 @@ onMounted(() => {
         start: "top bottom",
         end: "top center",
         scrub: true,
-        markers: true,
       },
     }
   );
@@ -74,9 +90,14 @@ onMounted(() => {
       </div>
     </section>
 
-    <section class="next-section">
-      <p class="home-title2">hello</p>
-    </section>
+    <TopProjectSection
+      v-if="firstHighlightedProject"
+      :image="firstHighlightedProject.image"
+      :title="firstHighlightedProject.title"
+      :year="firstHighlightedProject.year"
+      :tags="firstHighlightedProject.tags"
+      index-label="01/04"
+    />
 
     <SliceZone :slices="page?.data.slices ?? []" :components="components" />
   </main>
@@ -119,14 +140,14 @@ nav {
 
 .home-title {
   font-size: 128px;
-  font-family: 'Bebas Neue', sans-serif;
+  font-family: "Bebas Neue", sans-serif;
   font-weight: bold;
   color: white;
 }
 
 .hero-subtitle {
   font-size: 128px;
-  font-family: 'Bebas Neue', sans-serif;
+  font-family: "Bebas Neue", sans-serif;
   font-weight: bold;
   color: white;
   opacity: 0;
@@ -134,24 +155,5 @@ nav {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-}
-
-.next-section {
-  min-height: 100vh;
-  width: 100%;
-  background-color: var(--color-primary);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transform-origin: center center;
-  transform: scaleX(0.5) scaleY(0.8);
-  margin-top: -280px;
-}
-
-.home-title2 {
-  font-size: 128px;
-  font-family: 'Bebas Neue', sans-serif;
-  font-weight: bold;
-  color: black;
 }
 </style>
