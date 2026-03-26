@@ -5,6 +5,7 @@
       <NuxtLink to="/projects">Projets</NuxtLink>
     </nav>
     
+    <PageReveal />
     <AppNavbar />
     <section class="projects-hero">
       <h1>Projets</h1>

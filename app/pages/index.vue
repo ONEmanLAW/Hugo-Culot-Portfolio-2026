@@ -2,6 +2,7 @@
 import { asImageSrc, isFilled } from "@prismicio/client";
 import { components } from "~/slices";
 import TopProjectSection from "~/components/TopProjectSection.vue";
+import PageReveal from "~/components/PageReveal.vue";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -50,8 +51,8 @@ gsap.registerPlugin(ScrollTrigger);
 
 let ctx: gsap.Context | null = null;
 
-onMounted(async () => {
-  await nextTick();
+const initScrollAnimations = () => {
+  ctx?.revert();
 
   ctx = gsap.context(() => {
     const heroTl = gsap.timeline({
@@ -154,7 +155,11 @@ onMounted(async () => {
   });
 
   ScrollTrigger.refresh();
-});
+};
+
+const handleRevealDone = () => {
+  initScrollAnimations();
+};
 
 onUnmounted(() => {
   ctx?.revert();
@@ -163,12 +168,14 @@ onUnmounted(() => {
 
 <template>
   <main>
+    <PageReveal @done="handleRevealDone" />
+
     <AppNavbar />
 
     <section class="hero">
       <div class="hero-content">
         <h1 class="home-title">{{ page?.data.title }}</h1>
-        <h2 class="hero-subtitle">{{ page?.data.second_title }}</h2>
+        <h2 class="hero-subtitle">Bienvenue sur mon portfolio</h2>
       </div>
     </section>
 
@@ -228,6 +235,7 @@ body {
 
 main {
   min-height: 100vh;
+  background: black;
 }
 
 .hero {
