@@ -20,11 +20,9 @@ useSeoMeta({
 gsap.registerPlugin(ScrollTrigger);
 
 onMounted(() => {
-  const heroTrigger = ".hero";
-
   const tl = gsap.timeline({
     scrollTrigger: {
-      trigger: heroTrigger,
+      trigger: ".hero",
       start: "top top",
       end: "bottom top",
       scrub: true,
@@ -38,23 +36,24 @@ onMounted(() => {
     ".hero-subtitle",
     { opacity: 0, y: 50 },
     { opacity: 1, y: 0, duration: 1 },
-    ">0"
+    ">0.2"
   );
 
-  tl.to(".hero-subtitle", { opacity: 0, y: -50, duration: 1 });
+  tl.to(".hero-subtitle", { opacity: 0, y: -50, duration: 1 }, "+=0.5");
 
   gsap.fromTo(
     ".next-section",
-    { scaleX: 0.5, transformOrigin: "center center" },
+    { scaleX: 0.5, scaleY: 0.8 },
     {
       scaleX: 1,
-      y: 0,
+      scaleY: 1,
+      ease: "none",
       scrollTrigger: {
         trigger: ".next-section",
-        start: "top 80%",
-        end: "top 30%",
+        start: "top bottom",
+        end: "top center",
         scrub: true,
-        pin: true,
+        markers: true,
       },
     }
   );
@@ -109,10 +108,13 @@ nav {
 .hero {
   height: 100vh;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
+}
+
+.hero-content {
+  position: relative;
 }
 
 .home-title {
@@ -127,7 +129,7 @@ nav {
   font-family: 'Bebas Neue', sans-serif;
   font-weight: bold;
   color: white;
-  opacity: 0; 
+  opacity: 0;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -137,13 +139,13 @@ nav {
 .next-section {
   min-height: 100vh;
   width: 100%;
-  background: white;
+  background-color: var(--color-primary);
   display: flex;
   justify-content: center;
   align-items: center;
   transform-origin: center center;
-  scaleX: 0.5;
-  y: 100px;
+  transform: scaleX(0.5) scaleY(0.8);
+  margin-top: -280px;
 }
 
 .home-title2 {
