@@ -4,7 +4,8 @@
       <NuxtLink to="/">Accueil</NuxtLink>
       <NuxtLink to="/projects">Projets</NuxtLink>
     </nav>
-
+    
+    <AppNavbar />
     <section class="projects-hero">
       <h1>Projets</h1>
       <p>Page en construction</p>

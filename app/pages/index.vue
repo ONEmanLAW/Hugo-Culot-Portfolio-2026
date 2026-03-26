@@ -163,10 +163,7 @@ onUnmounted(() => {
 
 <template>
   <main>
-    <nav>
-      <NuxtLink to="/">Accueil</NuxtLink>
-      <NuxtLink to="/projects">Projets</NuxtLink>
-    </nav>
+    <AppNavbar />
 
     <section class="hero">
       <div class="hero-content">
@@ -229,15 +226,8 @@ body {
   overflow-y: auto;
 }
 
-nav {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 100;
-  padding: 16px 24px;
-  display: flex;
-  justify-content: space-between;
+main {
+  min-height: 100vh;
 }
 
 .hero {
@@ -268,6 +258,7 @@ nav {
   position: absolute;
   top: 50%;
   left: 50%;
+  width: max-content;
   transform: translate(-50%, -50%);
 }
 
@@ -296,5 +287,12 @@ nav {
 
 .projects-stage .project-two-section {
   z-index: 2;
+}
+
+@media (max-width: 900px) {
+  .home-title,
+  .hero-subtitle {
+    font-size: clamp(56px, 10vw, 96px);
+  }
 }
 </style>
