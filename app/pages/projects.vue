@@ -1,9 +1,5 @@
 <template>
   <main class="projects-page">
-    <nav>
-      <NuxtLink to="/">Accueil</NuxtLink>
-      <NuxtLink to="/projects">Projets</NuxtLink>
-    </nav>
     
     <PageReveal />
     <AppNavbar />
