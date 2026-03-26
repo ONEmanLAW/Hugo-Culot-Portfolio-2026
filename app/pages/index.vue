@@ -81,7 +81,6 @@ onMounted(async () => {
       {
         scaleX: 1,
         scaleY: 1,
-        ease: "none",
         scrollTrigger: {
           trigger: ".projects-stage",
           start: "top bottom",
@@ -96,7 +95,6 @@ onMounted(async () => {
       { rotation: 0 },
       {
         rotation: 600,
-        ease: "none",
         scrollTrigger: {
           trigger: ".projects-stage",
           start: "top bottom",
@@ -111,7 +109,6 @@ onMounted(async () => {
       { rotation: 600 },
       {
         rotation: 1680,
-        ease: "none",
         immediateRender: false,
         scrollTrigger: {
           trigger: ".projects-stage",
@@ -145,7 +142,6 @@ onMounted(async () => {
         { rotation: 0 },
         {
           rotation: 720,
-          ease: "none",
           scrollTrigger: {
             trigger: ".projects-stage",
             start: "top -20%",
