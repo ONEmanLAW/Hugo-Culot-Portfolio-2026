@@ -139,6 +139,21 @@ onMounted(async () => {
           scrub: true,
         },
       });
+
+      gsap.fromTo(
+        ".project-two-section .vinyl",
+        { rotation: 0 },
+        {
+          rotation: 720,
+          ease: "none",
+          scrollTrigger: {
+            trigger: ".projects-stage",
+            start: "top -20%",
+            end: "top -140%",
+            scrub: true,
+          },
+        }
+      );
     }
   });
 
