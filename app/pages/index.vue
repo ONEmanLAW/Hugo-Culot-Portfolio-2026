@@ -34,6 +34,18 @@ const firstHighlightedProject = computed(() => {
   return null;
 });
 
+const secondHighlightedProject = computed(() => {
+  const secondItem = highlightedProjects.value[1];
+
+  if (!secondItem) return null;
+
+  if (isFilled.contentRelationship(secondItem.projects)) {
+    return secondItem.projects.data;
+  }
+
+  return null;
+});
+
 gsap.registerPlugin(ScrollTrigger);
 
 let ctx: gsap.Context | null = null;
@@ -52,42 +64,26 @@ onMounted(async () => {
       },
     });
 
-    heroTl.to(".home-title", {
-      opacity: 0,
-      y: -50,
-      duration: 1,
-    });
+    heroTl.to(".home-title", { opacity: 0, y: -50, duration: 1 });
 
     heroTl.fromTo(
       ".hero-subtitle",
       { opacity: 0, y: 50 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 1,
-      },
+      { opacity: 1, y: 0, duration: 1 },
       ">0.2"
     );
 
-    heroTl.to(
-      ".hero-subtitle",
-      {
-        opacity: 0,
-        y: -50,
-        duration: 1,
-      },
-      "+=0.5"
-    );
+    heroTl.to(".hero-subtitle", { opacity: 0, y: -50, duration: 1 }, "+=0.5");
 
     gsap.fromTo(
-      ".next-section",
+      ".project-one-section",
       { scaleX: 0.5, scaleY: 0.8 },
       {
         scaleX: 1,
         scaleY: 1,
         ease: "none",
         scrollTrigger: {
-          trigger: ".next-section",
+          trigger: ".projects-stage",
           start: "top bottom",
           end: "top center",
           scrub: true,
@@ -96,13 +92,13 @@ onMounted(async () => {
     );
 
     gsap.fromTo(
-      ".vinyl",
+      ".project-one-section .vinyl",
       { rotation: 0 },
       {
         rotation: 600,
         ease: "none",
         scrollTrigger: {
-          trigger: ".next-section",
+          trigger: ".projects-stage",
           start: "top bottom",
           end: "top center",
           scrub: true,
@@ -111,20 +107,39 @@ onMounted(async () => {
     );
 
     gsap.fromTo(
-      ".vinyl",
+      ".project-one-section .vinyl",
       { rotation: 600 },
       {
         rotation: 1680,
         ease: "none",
         immediateRender: false,
         scrollTrigger: {
-          trigger: ".next-section",
+          trigger: ".projects-stage",
           start: "top center",
           end: "top -140%",
           scrub: true,
         },
       }
     );
+
+    if (secondHighlightedProject.value) {
+      gsap.set(".project-two-section", {
+        xPercent: -100,
+        scaleX: 1,
+        scaleY: 1,
+      });
+
+      gsap.to(".project-two-section", {
+        xPercent: 0,
+        ease: "none",
+        scrollTrigger: {
+          trigger: ".projects-stage",
+          start: "top -20%",
+          end: "top -140%",
+          scrub: true,
+        },
+      });
+    }
   });
 
   ScrollTrigger.refresh();
@@ -149,8 +164,33 @@ onUnmounted(() => {
       </div>
     </section>
 
+    <section
+      v-if="firstHighlightedProject && secondHighlightedProject"
+      class="projects-stage"
+    >
+      <div class="projects-stage-sticky">
+        <TopProjectSection
+          class="project-one-section"
+          :image="firstHighlightedProject.image"
+          :title="firstHighlightedProject.title"
+          :year="firstHighlightedProject.year"
+          :tags="firstHighlightedProject.tags"
+          index-label="01/04"
+        />
+
+        <TopProjectSection
+          class="project-two-section"
+          :image="secondHighlightedProject.image"
+          :title="secondHighlightedProject.title"
+          :year="secondHighlightedProject.year"
+          :tags="secondHighlightedProject.tags"
+          index-label="02/04"
+        />
+      </div>
+    </section>
+
     <TopProjectSection
-      v-if="firstHighlightedProject"
+      v-else-if="firstHighlightedProject"
       :image="firstHighlightedProject.image"
       :title="firstHighlightedProject.title"
       :year="firstHighlightedProject.year"
@@ -218,5 +258,32 @@ nav {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+.projects-stage {
+  position: relative;
+  height: 320vh;
+}
+
+.projects-stage-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.projects-stage .next-section {
+  position: absolute;
+  inset: 0;
+  min-height: 100vh;
+  margin-top: 0;
+}
+
+.projects-stage .project-one-section {
+  z-index: 1;
+}
+
+.projects-stage .project-two-section {
+  z-index: 2;
 }
 </style>
