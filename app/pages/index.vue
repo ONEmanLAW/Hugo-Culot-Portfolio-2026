@@ -168,7 +168,7 @@ onUnmounted(() => {
     <section class="hero">
       <div class="hero-content">
         <h1 class="home-title">{{ page?.data.title }}</h1>
-        <h2 class="hero-subtitle">Bienvenue sur mon portfolio</h2>
+        <h2 class="hero-subtitle">{{ page?.data.second_title }}</h2>
       </div>
     </section>
 

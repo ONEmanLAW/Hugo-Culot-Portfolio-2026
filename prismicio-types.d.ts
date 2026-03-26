@@ -70,6 +70,114 @@ type ContentRelationshipFieldWithData<
 }[Exclude<TCustomType[number], string>["id"]];
 
 /**
+ * Item in *ALL PROJECTS → Visible Projects*
+ */
+export interface AllProjectsDocumentDataVisibleProjectsItem {
+  /**
+   * Projects field in *ALL PROJECTS → Visible Projects*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: all_projects.visible_projects[].projects
+   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   */
+  projects: ContentRelationshipFieldWithData<
+    [
+      {
+        id: "project";
+        fields: [
+          "image",
+          "title",
+          "year",
+          "description",
+          { id: "tags"; fields: ["title"] },
+          "main_color",
+          "secondary_color",
+        ];
+      },
+    ]
+  >;
+}
+
+type AllProjectsDocumentDataSlicesSlice = never;
+
+/**
+ * Content for ALL PROJECTS documents
+ */
+interface AllProjectsDocumentData {
+  /**
+   * Visible Projects field in *ALL PROJECTS*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: all_projects.visible_projects[]
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   */
+  visible_projects: prismic.GroupField<
+    Simplify<AllProjectsDocumentDataVisibleProjectsItem>
+  >;
+
+  /**
+   * Slice Zone field in *ALL PROJECTS*
+   *
+   * - **Field Type**: Slice Zone
+   * - **Placeholder**: *None*
+   * - **API ID Path**: all_projects.slices[]
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/slices
+   */
+  slices: prismic.SliceZone<AllProjectsDocumentDataSlicesSlice>; /**
+   * Meta Title field in *ALL PROJECTS*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: A title of the page used for social media and search engines
+   * - **API ID Path**: all_projects.meta_title
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  meta_title: prismic.KeyTextField;
+
+  /**
+   * Meta Description field in *ALL PROJECTS*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: A brief summary of the page
+   * - **API ID Path**: all_projects.meta_description
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  meta_description: prismic.KeyTextField;
+
+  /**
+   * Meta Image field in *ALL PROJECTS*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: all_projects.meta_image
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/fields/image
+   */
+  meta_image: prismic.ImageField<never>;
+}
+
+/**
+ * ALL PROJECTS document from Prismic
+ *
+ * - **API ID**: `all_projects`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/content-modeling
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type AllProjectsDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithUID<
+    Simplify<AllProjectsDocumentData>,
+    "all_projects",
+    Lang
+  >;
+
+/**
  * Item in *Home → Highlighted projects*
  */
 export interface HomeDocumentDataHighlightedProjectsItem {
@@ -91,6 +199,8 @@ export interface HomeDocumentDataHighlightedProjectsItem {
           "year",
           "description",
           { id: "tags"; fields: ["title"] },
+          "main_color",
+          "secondary_color",
         ];
       },
     ]
@@ -113,6 +223,28 @@ interface HomeDocumentData {
    * - **Documentation**: https://prismic.io/docs/fields/text
    */
   title: prismic.KeyTextField;
+
+  /**
+   * Second Title field in *Home*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: home.second_title
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  second_title: prismic.KeyTextField;
+
+  /**
+   * Third Title field in *Home*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: home.third_title
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  third_title: prismic.KeyTextField;
 
   /**
    * Highlighted projects field in *Home*
@@ -212,7 +344,7 @@ interface ProjectDocumentData {
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/fields/image
    */
-  image: prismic.ImageField<"banner">;
+  image: prismic.ImageField<never>;
 
   /**
    * Title field in *Project*
@@ -257,6 +389,28 @@ interface ProjectDocumentData {
    * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
    */
   tags: prismic.GroupField<Simplify<ProjectDocumentDataTagsItem>>;
+
+  /**
+   * Main Color field in *Project*
+   *
+   * - **Field Type**: Color
+   * - **Placeholder**: *None*
+   * - **API ID Path**: project.main_color
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/color
+   */
+  main_color: prismic.ColorField;
+
+  /**
+   * Secondary Color field in *Project*
+   *
+   * - **Field Type**: Color
+   * - **Placeholder**: *None*
+   * - **API ID Path**: project.secondary_color
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/color
+   */
+  secondary_color: prismic.ColorField;
 
   /**
    * Slice Zone field in *Project*
@@ -317,7 +471,10 @@ export type ProjectDocument<Lang extends string = string> =
     Lang
   >;
 
-export type AllDocumentTypes = HomeDocument | ProjectDocument;
+export type AllDocumentTypes =
+  | AllProjectsDocument
+  | HomeDocument
+  | ProjectDocument;
 
 declare module "@prismicio/client" {
   interface CreateClient {
@@ -340,6 +497,10 @@ declare module "@prismicio/client" {
 
   namespace Content {
     export type {
+      AllProjectsDocument,
+      AllProjectsDocumentData,
+      AllProjectsDocumentDataVisibleProjectsItem,
+      AllProjectsDocumentDataSlicesSlice,
       HomeDocument,
       HomeDocumentData,
       HomeDocumentDataHighlightedProjectsItem,

@@ -20,13 +20,7 @@
             "width": 300,
             "height": 300
           },
-          "thumbnails": [
-            {
-              "name": "banner",
-              "width": 1440,
-              "height": 600
-            }
-          ]
+          "thumbnails": []
         }
       },
       "title": {
@@ -66,6 +60,20 @@
               }
             }
           }
+        }
+      },
+      "main_color": {
+        "type": "Color",
+        "config": {
+          "label": "Main Color",
+          "placeholder": ""
+        }
+      },
+      "secondary_color": {
+        "type": "Color",
+        "config": {
+          "label": "Secondary Color",
+          "placeholder": ""
         }
       },
       "slices": {
