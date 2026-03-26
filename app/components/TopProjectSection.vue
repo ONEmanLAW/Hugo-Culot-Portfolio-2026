@@ -167,6 +167,8 @@ const countParts = computed(() => {
   height: 100%;
   border-radius: 50%;
   overflow: hidden;
+  transform-origin: center center;
+  will-change: transform;
   background:
     repeating-radial-gradient(
       circle at center,

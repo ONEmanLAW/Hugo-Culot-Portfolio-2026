@@ -37,26 +37,26 @@ const firstHighlightedProject = computed(() => {
 gsap.registerPlugin(ScrollTrigger);
 
 onMounted(() => {
-  const tl = gsap.timeline({
+  const heroTl = gsap.timeline({
     scrollTrigger: {
       trigger: ".hero",
       start: "top top",
       end: "bottom top",
       scrub: true,
       pin: true,
-    }
+    },
   });
 
-  tl.to(".home-title", { opacity: 0, y: -50, duration: 1 });
+  heroTl.to(".home-title", { opacity: 0, y: -50, duration: 1 });
 
-  tl.fromTo(
+  heroTl.fromTo(
     ".hero-subtitle",
     { opacity: 0, y: 50 },
     { opacity: 1, y: 0, duration: 1 },
     ">0.2"
   );
 
-  tl.to(".hero-subtitle", { opacity: 0, y: -50, duration: 1 }, "+=0.5");
+  heroTl.to(".hero-subtitle", { opacity: 0, y: -50, duration: 1 }, "+=0.5");
 
   gsap.fromTo(
     ".next-section",
@@ -69,6 +69,37 @@ onMounted(() => {
         trigger: ".next-section",
         start: "top bottom",
         end: "top center",
+        scrub: true,
+      },
+    }
+  );
+
+  gsap.fromTo(
+    ".vinyl",
+    { rotation: 0 },
+    {
+      rotation: 600,
+      ease: "none",
+      scrollTrigger: {
+        trigger: ".next-section",
+        start: "top bottom",
+        end: "top center",
+        scrub: true,
+      },
+    }
+  );
+
+  gsap.fromTo(
+    ".vinyl",
+    { rotation: 600 },
+    {
+      rotation: 1680,
+      ease: "none",
+      immediateRender: false,
+      scrollTrigger: {
+        trigger: ".next-section",
+        start: "top center",
+        end: "top -140%",
         scrub: true,
       },
     }
