@@ -36,74 +36,102 @@ const firstHighlightedProject = computed(() => {
 
 gsap.registerPlugin(ScrollTrigger);
 
-onMounted(() => {
-  const heroTl = gsap.timeline({
-    scrollTrigger: {
-      trigger: ".hero",
-      start: "top top",
-      end: "bottom top",
-      scrub: true,
-      pin: true,
-    },
+let ctx: gsap.Context | null = null;
+
+onMounted(async () => {
+  await nextTick();
+
+  ctx = gsap.context(() => {
+    const heroTl = gsap.timeline({
+      scrollTrigger: {
+        trigger: ".hero",
+        start: "top top",
+        end: "bottom top",
+        scrub: true,
+        pin: true,
+      },
+    });
+
+    heroTl.to(".home-title", {
+      opacity: 0,
+      y: -50,
+      duration: 1,
+    });
+
+    heroTl.fromTo(
+      ".hero-subtitle",
+      { opacity: 0, y: 50 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+      },
+      ">0.2"
+    );
+
+    heroTl.to(
+      ".hero-subtitle",
+      {
+        opacity: 0,
+        y: -50,
+        duration: 1,
+      },
+      "+=0.5"
+    );
+
+    gsap.fromTo(
+      ".next-section",
+      { scaleX: 0.5, scaleY: 0.8 },
+      {
+        scaleX: 1,
+        scaleY: 1,
+        ease: "none",
+        scrollTrigger: {
+          trigger: ".next-section",
+          start: "top bottom",
+          end: "top center",
+          scrub: true,
+        },
+      }
+    );
+
+    gsap.fromTo(
+      ".vinyl",
+      { rotation: 0 },
+      {
+        rotation: 600,
+        ease: "none",
+        scrollTrigger: {
+          trigger: ".next-section",
+          start: "top bottom",
+          end: "top center",
+          scrub: true,
+        },
+      }
+    );
+
+    gsap.fromTo(
+      ".vinyl",
+      { rotation: 600 },
+      {
+        rotation: 1680,
+        ease: "none",
+        immediateRender: false,
+        scrollTrigger: {
+          trigger: ".next-section",
+          start: "top center",
+          end: "top -140%",
+          scrub: true,
+        },
+      }
+    );
   });
 
-  heroTl.to(".home-title", { opacity: 0, y: -50, duration: 1 });
+  ScrollTrigger.refresh();
+});
 
-  heroTl.fromTo(
-    ".hero-subtitle",
-    { opacity: 0, y: 50 },
-    { opacity: 1, y: 0, duration: 1 },
-    ">0.2"
-  );
-
-  heroTl.to(".hero-subtitle", { opacity: 0, y: -50, duration: 1 }, "+=0.5");
-
-  gsap.fromTo(
-    ".next-section",
-    { scaleX: 0.5, scaleY: 0.8 },
-    {
-      scaleX: 1,
-      scaleY: 1,
-      ease: "none",
-      scrollTrigger: {
-        trigger: ".next-section",
-        start: "top bottom",
-        end: "top center",
-        scrub: true,
-      },
-    }
-  );
-
-  gsap.fromTo(
-    ".vinyl",
-    { rotation: 0 },
-    {
-      rotation: 600,
-      ease: "none",
-      scrollTrigger: {
-        trigger: ".next-section",
-        start: "top bottom",
-        end: "top center",
-        scrub: true,
-      },
-    }
-  );
-
-  gsap.fromTo(
-    ".vinyl",
-    { rotation: 600 },
-    {
-      rotation: 1680,
-      ease: "none",
-      immediateRender: false,
-      scrollTrigger: {
-        trigger: ".next-section",
-        start: "top center",
-        end: "top -140%",
-        scrub: true,
-      },
-    }
-  );
+onUnmounted(() => {
+  ctx?.revert();
 });
 </script>
 
@@ -141,9 +169,13 @@ onMounted(() => {
   padding: 0;
 }
 
+html,
+body {
+  background-color: black;
+}
+
 body {
   overflow-y: auto;
-  background-color: black;
 }
 
 nav {

@@ -1,0 +1,25 @@
+import Lenis from "lenis";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+export default defineNuxtPlugin((nuxtApp) => {
+  gsap.registerPlugin(ScrollTrigger);
+
+  const lenis = new Lenis({
+    duration: 1.2,
+    smoothWheel: true,
+    syncTouch: false,
+    anchors: true
+  });
+
+  lenis.on("scroll", ScrollTrigger.update);
+
+  const update = (time: number) => {
+    lenis.raf(time * 1000);
+  };
+
+  gsap.ticker.add(update);
+  gsap.ticker.lagSmoothing(0);
+
+  nuxtApp.provide("lenis", lenis);
+});
