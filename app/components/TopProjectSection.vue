@@ -110,7 +110,7 @@ const countParts = computed(() => {
   display: flex;
   align-items: flex-start;
   line-height: 0.82;
-  font-family: "Bebas Neue", sans-serif;
+  font-family:var(--font-primary);
   color: white;
 }
 
@@ -126,7 +126,7 @@ const countParts = computed(() => {
 .project-year {
   font-size: clamp(48px, 4vw, 76px);
   line-height: 0.88;
-  font-family: "Bebas Neue", sans-serif;
+  font-family:var(--font-primary);
   color: white;
   border: 4px solid white;
   padding: 8px 14px 4px;
@@ -152,7 +152,7 @@ const countParts = computed(() => {
 .project-title {
   font-size: clamp(58px, 5.2vw, 86px);
   line-height: 0.88;
-  font-family: "Bebas Neue", sans-serif;
+  font-family:var(--font-primary);
   color: white;
   margin-bottom: 20px;
   text-transform: uppercase;
@@ -170,7 +170,7 @@ const countParts = computed(() => {
   padding: 8px 16px;
   font-size: clamp(24px, 2vw, 34px);
   line-height: 1;
-  font-family: "Bebas Neue", sans-serif;
+  font-family:var(--font-primary);
   text-transform: uppercase;
 }
 

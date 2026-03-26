@@ -3,4 +3,7 @@
   --color-white: #ffffff;
   --color-primary: #F28705;
   --color-secondary: #F25C05;
+
+  --font-primary: "Bebas Neue", sans-serif;
+  --font-secondary: "Space Grotesk", sans-serif;
 }

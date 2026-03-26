@@ -254,14 +254,14 @@ nav {
 
 .home-title {
   font-size: 128px;
-  font-family: "Bebas Neue", sans-serif;
+  font-family: var(--font-primary);
   font-weight: bold;
   color: white;
 }
 
 .hero-subtitle {
   font-size: 128px;
-  font-family: "Bebas Neue", sans-serif;
+  font-family: var(--font-primary);
   font-weight: bold;
   color: white;
   opacity: 0;

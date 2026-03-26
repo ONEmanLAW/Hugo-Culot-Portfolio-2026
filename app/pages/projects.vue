@@ -42,11 +42,11 @@ nav {
 
 .projects-hero h1 {
   font-size: 128px;
-  font-family: "Bebas Neue", sans-serif;
+  font-family: var(--font-primary);
 }
 
 .projects-hero p {
   font-size: 24px;
-  font-family: "Space Grotesk", sans-serif;
+  font-family: var(--font-secondary);
 }
 </style>
