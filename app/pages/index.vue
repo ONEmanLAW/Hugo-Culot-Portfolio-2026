@@ -39,14 +39,28 @@ const getHighlightedProject = (index: number) =>
 
 const firstHighlightedProject = getHighlightedProject(0);
 const secondHighlightedProject = getHighlightedProject(1);
+const thirdHighlightedProject = getHighlightedProject(2);
 
 const hasSecondHighlightedProject = computed(() => {
   return !!secondHighlightedProject.value;
 });
 
+const hasThirdHighlightedProject = computed(() => {
+  return !!thirdHighlightedProject.value;
+});
+
+const projectsStageHeight = computed(() => {
+  return thirdHighlightedProject.value
+    ? "1140vh"
+    : secondHighlightedProject.value
+    ? "740vh"
+    : "100vh";
+});
+
 const { initHomeAnimations, destroyHomeAnimations } = useHomeAnimations(
   homePage,
-  hasSecondHighlightedProject
+  hasSecondHighlightedProject,
+  hasThirdHighlightedProject
 );
 
 const handleRevealDone = () => {
@@ -74,6 +88,7 @@ onUnmounted(() => {
     <section
       v-if="firstHighlightedProject && secondHighlightedProject"
       class="projects-stage"
+      :style="{ height: projectsStageHeight }"
     >
       <div class="projects-stage-sticky">
         <TopProjectSection
@@ -97,10 +112,22 @@ onUnmounted(() => {
           :secondary-color="secondHighlightedProject.secondary_color"
           index-label="02/04"
         />
+
+        <TopProjectSection
+          v-if="thirdHighlightedProject"
+          class="project-three-section"
+          :image="thirdHighlightedProject.image"
+          :title="thirdHighlightedProject.title"
+          :year="thirdHighlightedProject.year"
+          :tags="thirdHighlightedProject.tags"
+          :primary-color="thirdHighlightedProject.main_color"
+          :secondary-color="thirdHighlightedProject.secondary_color"
+          index-label="03/04"
+        />
       </div>
     </section>
 
-   <TopProjectSection
+    <TopProjectSection
       v-else-if="firstHighlightedProject"
       :image="firstHighlightedProject.image"
       :title="firstHighlightedProject.title"
@@ -110,6 +137,7 @@ onUnmounted(() => {
       :secondary-color="firstHighlightedProject.secondary_color"
       index-label="01/04"
     />
+
     <SliceZone :slices="page?.data.slices ?? []" :components="components" />
   </main>
 </template>
@@ -169,7 +197,6 @@ main {
 
 .projects-stage {
   position: relative;
-  height: 520vh;
 }
 
 .projects-stage-sticky {
@@ -192,6 +219,10 @@ main {
 
 .projects-stage .project-two-section {
   z-index: 2;
+}
+
+.projects-stage .project-three-section {
+  z-index: 3;
 }
 
 @media (max-width: 900px) {
