@@ -3,8 +3,7 @@ import { asImageSrc, isFilled } from "@prismicio/client";
 import { components } from "~/slices";
 import TopProjectSection from "~/components/TopProjectSection.vue";
 import PageReveal from "~/components/PageReveal.vue";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useHomeAnimations } from "~/composables/useHomeAnimations";
 
 const { client } = usePrismic();
 const { data: page } = await useAsyncData("home", () =>
@@ -19,167 +18,48 @@ useSeoMeta({
   ogImage: computed(() => asImageSrc(page.value?.data.meta_image)),
 });
 
+const homePage = ref<HTMLElement | null>(null);
+
 const highlightedProjects = computed(() => {
   return page.value?.data.highlighted_projects ?? [];
 });
 
-const firstHighlightedProject = computed(() => {
-  const firstItem = highlightedProjects.value[0];
+const getHighlightedProject = (index: number) =>
+  computed(() => {
+    const item = highlightedProjects.value[index];
 
-  if (!firstItem) return null;
+    if (!item) return null;
 
-  if (isFilled.contentRelationship(firstItem.projects)) {
-    return firstItem.projects.data;
-  }
-
-  return null;
-});
-
-const secondHighlightedProject = computed(() => {
-  const secondItem = highlightedProjects.value[1];
-
-  if (!secondItem) return null;
-
-  if (isFilled.contentRelationship(secondItem.projects)) {
-    return secondItem.projects.data;
-  }
-
-  return null;
-});
-
-gsap.registerPlugin(ScrollTrigger);
-
-let ctx: gsap.Context | null = null;
-
-const initScrollAnimations = () => {
-  ctx?.revert();
-
-  ctx = gsap.context(() => {
-    const heroTl = gsap.timeline({
-      scrollTrigger: {
-        trigger: ".hero",
-        start: "top top",
-        end: "+=260%",
-        scrub: 1.5,
-        pin: true,
-      },
-    });
-
-    heroTl.to(".home-title", {
-      opacity: 0,
-      y: -50,
-      duration: 1,
-    });
-
-    heroTl.fromTo(
-      ".hero-subtitle",
-      { opacity: 0, y: 50 },
-      { opacity: 1, y: 0, duration: 1 },
-      ">0.25"
-    );
-
-    heroTl.to(
-      ".hero-subtitle",
-      {
-        opacity: 0,
-        y: -50,
-        duration: 1,
-      },
-      "+=0.8"
-    );
-
-    gsap.fromTo(
-      ".project-one-section",
-      { scaleX: 0.5, scaleY: 0.8 },
-      {
-        scaleX: 1,
-        scaleY: 1,
-        scrollTrigger: {
-          trigger: ".projects-stage",
-          start: "top bottom",
-          end: "top top",
-          scrub: 1.5,
-        },
-      }
-    );
-
-    gsap.fromTo(
-      ".project-one-section .vinyl",
-      { rotation: 0 },
-      {
-        rotation: 600,
-        scrollTrigger: {
-          trigger: ".projects-stage",
-          start: "top bottom",
-          end: "top top",
-          scrub: 1.5,
-        },
-      }
-    );
-
-    gsap.fromTo(
-      ".project-one-section .vinyl",
-      { rotation: 600 },
-      {
-        rotation: 1680,
-        immediateRender: false,
-        scrollTrigger: {
-          trigger: ".projects-stage",
-          start: "top top",
-          end: "top -260%",
-          scrub: 1.5,
-        },
-      }
-    );
-
-    if (secondHighlightedProject.value) {
-      gsap.set(".project-two-section", {
-        xPercent: -100,
-        scaleX: 1,
-        scaleY: 1,
-      });
-
-      gsap.to(".project-two-section", {
-        xPercent: 0,
-        ease: "none",
-        scrollTrigger: {
-          trigger: ".projects-stage",
-          start: "top -60%",
-          end: "top -260%",
-          scrub: 1.5,
-        },
-      });
-
-      gsap.fromTo(
-        ".project-two-section .vinyl",
-        { rotation: 0 },
-        {
-          rotation: 720,
-          scrollTrigger: {
-            trigger: ".projects-stage",
-            start: "top -60%",
-            end: "top -260%",
-            scrub: 1.5,
-          },
-        }
-      );
+    if (isFilled.contentRelationship(item.projects)) {
+      return item.projects.data;
     }
+
+    return null;
   });
 
-  ScrollTrigger.refresh();
-};
+const firstHighlightedProject = getHighlightedProject(0);
+const secondHighlightedProject = getHighlightedProject(1);
+
+const hasSecondHighlightedProject = computed(() => {
+  return !!secondHighlightedProject.value;
+});
+
+const { initHomeAnimations, destroyHomeAnimations } = useHomeAnimations(
+  homePage,
+  hasSecondHighlightedProject
+);
 
 const handleRevealDone = () => {
-  initScrollAnimations();
+  initHomeAnimations();
 };
 
 onUnmounted(() => {
-  ctx?.revert();
+  destroyHomeAnimations();
 });
 </script>
 
 <template>
-  <main>
+  <main ref="homePage">
     <PageReveal @done="handleRevealDone" />
 
     <AppNavbar />
