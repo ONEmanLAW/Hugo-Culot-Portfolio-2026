@@ -7,7 +7,8 @@ gsap.registerPlugin(ScrollTrigger);
 export function useHomeAnimations(
   scope: Ref<HTMLElement | null>,
   hasSecondProject: Ref<boolean>,
-  hasThirdProject: Ref<boolean>
+  hasThirdProject: Ref<boolean>,
+  hasFourthProject: Ref<boolean>
 ) {
   let ctx: gsap.Context | null = null;
 
@@ -84,6 +85,14 @@ export function useHomeAnimations(
         });
       }
 
+      if (hasFourthProject.value) {
+        gsap.set(".project-four-section", {
+          yPercent: 100,
+          scaleX: 1,
+          scaleY: 1,
+        });
+      }
+
       gsap.set(".project-one-section .vinyl", { rotation: 0 });
 
       if (hasSecondProject.value) {
@@ -94,13 +103,21 @@ export function useHomeAnimations(
         gsap.set(".project-three-section .vinyl", { rotation: 0 });
       }
 
-      const totalUnits = hasThirdProject.value
+      if (hasFourthProject.value) {
+        gsap.set(".project-four-section .vinyl", { rotation: 0 });
+      }
+
+      const totalUnits = hasFourthProject.value
+        ? 1500
+        : hasThirdProject.value
         ? 1140
         : hasSecondProject.value
         ? 740
         : 360;
 
-      const stageEnd = hasThirdProject.value
+      const stageEnd = hasFourthProject.value
+        ? "top -1400%"
+        : hasThirdProject.value
         ? "top -1040%"
         : hasSecondProject.value
         ? "top -640%"
@@ -154,9 +171,17 @@ export function useHomeAnimations(
             } else if (u <= 500) {
               projectTwoRotation = mix(0, 360, progressBetween(u, 300, 500));
             } else if (u <= 700) {
-              projectTwoRotation = mix(360, 1080, progressBetween(u, 500, 700));
+              projectTwoRotation = mix(
+                360,
+                1080,
+                progressBetween(u, 500, 700)
+              );
             } else if (u <= 900) {
-              projectTwoRotation = mix(1080, 1440, progressBetween(u, 700, 900));
+              projectTwoRotation = mix(
+                1080,
+                1440,
+                progressBetween(u, 700, 900)
+              );
             } else {
               projectTwoRotation = 1440;
             }
@@ -180,13 +205,63 @@ export function useHomeAnimations(
             if (u <= 700) {
               projectThreeRotation = 0;
             } else if (u <= 900) {
-              projectThreeRotation = mix(0, 360, progressBetween(u, 700, 900));
+              projectThreeRotation = mix(
+                0,
+                360,
+                progressBetween(u, 700, 900)
+              );
+            } else if (u <= 1100) {
+              projectThreeRotation = mix(
+                360,
+                1080,
+                progressBetween(u, 900, 1100)
+              );
+            } else if (u <= 1300) {
+              projectThreeRotation = mix(
+                1080,
+                1440,
+                progressBetween(u, 1100, 1300)
+              );
             } else {
-              projectThreeRotation = mix(360, 1080, progressBetween(u, 900, 1140));
+              projectThreeRotation = hasFourthProject.value ? 1440 : 1080;
             }
 
             gsap.set(".project-three-section .vinyl", {
               rotation: projectThreeRotation,
+            });
+          }
+
+          if (hasFourthProject.value) {
+            const projectFourY = mix(100, 0, progressBetween(u, 1100, 1300));
+
+            gsap.set(".project-four-section", {
+              yPercent: projectFourY,
+              scaleX: 1,
+              scaleY: 1,
+            });
+
+            let projectFourRotation = 0;
+
+            if (u <= 1100) {
+              projectFourRotation = 0;
+            } else if (u <= 1300) {
+              projectFourRotation = mix(
+                0,
+                360,
+                progressBetween(u, 1100, 1300)
+              );
+            } else if (u <= 1500) {
+              projectFourRotation = mix(
+                360,
+                1080,
+                progressBetween(u, 1300, 1500)
+              );
+            } else {
+              projectFourRotation = 1080;
+            }
+
+            gsap.set(".project-four-section .vinyl", {
+              rotation: projectFourRotation,
             });
           }
         },

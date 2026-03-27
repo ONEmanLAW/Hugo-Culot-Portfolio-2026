@@ -40,6 +40,7 @@ const getHighlightedProject = (index: number) =>
 const firstHighlightedProject = getHighlightedProject(0);
 const secondHighlightedProject = getHighlightedProject(1);
 const thirdHighlightedProject = getHighlightedProject(2);
+const fourthHighlightedProject = getHighlightedProject(3);
 
 const hasSecondHighlightedProject = computed(() => {
   return !!secondHighlightedProject.value;
@@ -49,8 +50,14 @@ const hasThirdHighlightedProject = computed(() => {
   return !!thirdHighlightedProject.value;
 });
 
+const hasFourthHighlightedProject = computed(() => {
+  return !!fourthHighlightedProject.value;
+});
+
 const projectsStageHeight = computed(() => {
-  return thirdHighlightedProject.value
+  return fourthHighlightedProject.value
+    ? "1500vh"
+    : thirdHighlightedProject.value
     ? "1140vh"
     : secondHighlightedProject.value
     ? "740vh"
@@ -60,7 +67,8 @@ const projectsStageHeight = computed(() => {
 const { initHomeAnimations, destroyHomeAnimations } = useHomeAnimations(
   homePage,
   hasSecondHighlightedProject,
-  hasThirdHighlightedProject
+  hasThirdHighlightedProject,
+  hasFourthHighlightedProject
 );
 
 const handleRevealDone = () => {
@@ -123,6 +131,18 @@ onUnmounted(() => {
           :primary-color="thirdHighlightedProject.main_color"
           :secondary-color="thirdHighlightedProject.secondary_color"
           index-label="03/04"
+        />
+
+        <TopProjectSection
+          v-if="fourthHighlightedProject"
+          class="project-four-section"
+          :image="fourthHighlightedProject.image"
+          :title="fourthHighlightedProject.title"
+          :year="fourthHighlightedProject.year"
+          :tags="fourthHighlightedProject.tags"
+          :primary-color="fourthHighlightedProject.main_color"
+          :secondary-color="fourthHighlightedProject.secondary_color"
+          index-label="04/04"
         />
       </div>
     </section>
@@ -223,6 +243,10 @@ main {
 
 .projects-stage .project-three-section {
   z-index: 3;
+}
+
+.projects-stage .project-four-section {
+  z-index: 4;
 }
 
 @media (max-width: 900px) {
