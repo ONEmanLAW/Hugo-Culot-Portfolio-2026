@@ -11,6 +11,8 @@ const props = defineProps<{
   year?: string | number | null;
   tags?: TagItem[] | null;
   indexLabel?: string;
+  primaryColor?: string | null;
+  secondaryColor?: string | null;
 }>();
 
 const projectTags = computed<string[]>(() => {
@@ -28,10 +30,17 @@ const countParts = computed(() => {
     total,
   };
 });
+
+const sectionStyles = computed(() => {
+  return {
+    "--project-primary": props.primaryColor || "var(--color-primary)",
+    "--project-secondary": props.secondaryColor || "var(--color-secondary)",
+  };
+});
 </script>
 
 <template>
-  <section class="next-section">
+  <section class="next-section" :style="sectionStyles">
     <div class="project-card">
       <div class="project-bg"></div>
 
@@ -69,7 +78,7 @@ const countParts = computed(() => {
 .next-section {
   min-height: 100vh;
   width: 100%;
-  background-color: var(--color-primary);
+  background-color: var(--project-primary);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -92,7 +101,7 @@ const countParts = computed(() => {
   left: 78px;
   right: 78px;
   bottom: 138px;
-  background: rgba(255, 94, 0, 0.52);
+  background: var(--project-secondary);
 }
 
 .project-top {

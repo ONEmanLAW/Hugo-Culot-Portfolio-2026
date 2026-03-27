@@ -82,6 +82,8 @@ onUnmounted(() => {
           :title="firstHighlightedProject.title"
           :year="firstHighlightedProject.year"
           :tags="firstHighlightedProject.tags"
+          :primary-color="firstHighlightedProject.main_color"
+          :secondary-color="firstHighlightedProject.secondary_color"
           index-label="01/04"
         />
 
@@ -91,20 +93,23 @@ onUnmounted(() => {
           :title="secondHighlightedProject.title"
           :year="secondHighlightedProject.year"
           :tags="secondHighlightedProject.tags"
+          :primary-color="secondHighlightedProject.main_color"
+          :secondary-color="secondHighlightedProject.secondary_color"
           index-label="02/04"
         />
       </div>
     </section>
 
-    <TopProjectSection
+   <TopProjectSection
       v-else-if="firstHighlightedProject"
       :image="firstHighlightedProject.image"
       :title="firstHighlightedProject.title"
       :year="firstHighlightedProject.year"
       :tags="firstHighlightedProject.tags"
+      :primary-color="firstHighlightedProject.main_color"
+      :secondary-color="firstHighlightedProject.secondary_color"
       index-label="01/04"
     />
-
     <SliceZone :slices="page?.data.slices ?? []" :components="components" />
   </main>
 </template>
