@@ -1,8 +1,6 @@
 :root {
-  --color-black: #0f0f0f;
-  --color-white: #ffffff;
-  --color-primary: #F28705;
-  --color-secondary: #F25C05;
+  --color-primary: #cfc8bb;
+  --color-secondary: #6f6a61;
 
   --font-primary: "Bebas Neue", sans-serif;
   --font-secondary: "Space Grotesk", sans-serif;
