@@ -59,22 +59,34 @@ const initScrollAnimations = () => {
       scrollTrigger: {
         trigger: ".hero",
         start: "top top",
-        end: "bottom top",
-        scrub: true,
+        end: "+=260%",
+        scrub: 1.5,
         pin: true,
       },
     });
 
-    heroTl.to(".home-title", { opacity: 0, y: -50, duration: 1 });
+    heroTl.to(".home-title", {
+      opacity: 0,
+      y: -50,
+      duration: 1,
+    });
 
     heroTl.fromTo(
       ".hero-subtitle",
       { opacity: 0, y: 50 },
       { opacity: 1, y: 0, duration: 1 },
-      ">0.2"
+      ">0.25"
     );
 
-    heroTl.to(".hero-subtitle", { opacity: 0, y: -50, duration: 1 }, "+=0.5");
+    heroTl.to(
+      ".hero-subtitle",
+      {
+        opacity: 0,
+        y: -50,
+        duration: 1,
+      },
+      "+=0.8"
+    );
 
     gsap.fromTo(
       ".project-one-section",
@@ -85,8 +97,8 @@ const initScrollAnimations = () => {
         scrollTrigger: {
           trigger: ".projects-stage",
           start: "top bottom",
-          end: "top center",
-          scrub: true,
+          end: "top top",
+          scrub: 1.5,
         },
       }
     );
@@ -99,8 +111,8 @@ const initScrollAnimations = () => {
         scrollTrigger: {
           trigger: ".projects-stage",
           start: "top bottom",
-          end: "top center",
-          scrub: true,
+          end: "top top",
+          scrub: 1.5,
         },
       }
     );
@@ -113,9 +125,9 @@ const initScrollAnimations = () => {
         immediateRender: false,
         scrollTrigger: {
           trigger: ".projects-stage",
-          start: "top center",
-          end: "top -140%",
-          scrub: true,
+          start: "top top",
+          end: "top -260%",
+          scrub: 1.5,
         },
       }
     );
@@ -132,9 +144,9 @@ const initScrollAnimations = () => {
         ease: "none",
         scrollTrigger: {
           trigger: ".projects-stage",
-          start: "top -20%",
-          end: "top -140%",
-          scrub: true,
+          start: "top -60%",
+          end: "top -260%",
+          scrub: 1.5,
         },
       });
 
@@ -145,9 +157,9 @@ const initScrollAnimations = () => {
           rotation: 720,
           scrollTrigger: {
             trigger: ".projects-stage",
-            start: "top -20%",
-            end: "top -140%",
-            scrub: true,
+            start: "top -60%",
+            end: "top -260%",
+            scrub: 1.5,
           },
         }
       );
@@ -272,7 +284,7 @@ main {
 
 .projects-stage {
   position: relative;
-  height: 320vh;
+  height: 520vh;
 }
 
 .projects-stage-sticky {
