@@ -93,18 +93,18 @@ export function useHomeAnimations(
         });
       }
 
-      gsap.set(".project-one-section .vinyl", { rotation: 0 });
+      gsap.set(".project-one-section .vinyl-disc", { rotation: 0 });
 
       if (hasSecondProject.value) {
-        gsap.set(".project-two-section .vinyl", { rotation: 0 });
+        gsap.set(".project-two-section .vinyl-disc", { rotation: 0 });
       }
 
       if (hasThirdProject.value) {
-        gsap.set(".project-three-section .vinyl", { rotation: 0 });
+        gsap.set(".project-three-section .vinyl-disc", { rotation: 0 });
       }
 
       if (hasFourthProject.value) {
-        gsap.set(".project-four-section .vinyl", { rotation: 0 });
+        gsap.set(".project-four-section .vinyl-disc", { rotation: 0 });
       }
 
       const totalUnits = hasFourthProject.value
@@ -151,7 +151,7 @@ export function useHomeAnimations(
             projectOneRotation = 1440;
           }
 
-          gsap.set(".project-one-section .vinyl", {
+          gsap.set(".project-one-section .vinyl-disc", {
             rotation: projectOneRotation,
           });
 
@@ -186,7 +186,7 @@ export function useHomeAnimations(
               projectTwoRotation = 1440;
             }
 
-            gsap.set(".project-two-section .vinyl", {
+            gsap.set(".project-two-section .vinyl-disc", {
               rotation: projectTwoRotation,
             });
           }
@@ -226,7 +226,7 @@ export function useHomeAnimations(
               projectThreeRotation = hasFourthProject.value ? 1440 : 1080;
             }
 
-            gsap.set(".project-three-section .vinyl", {
+            gsap.set(".project-three-section .vinyl-disc", {
               rotation: projectThreeRotation,
             });
           }
@@ -260,7 +260,7 @@ export function useHomeAnimations(
               projectFourRotation = 1080;
             }
 
-            gsap.set(".project-four-section .vinyl", {
+            gsap.set(".project-four-section .vinyl-disc", {
               rotation: projectFourRotation,
             });
           }
