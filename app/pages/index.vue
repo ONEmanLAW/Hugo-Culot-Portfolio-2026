@@ -189,10 +189,14 @@ main {
   align-items: center;
   justify-content: center;
   text-align: center;
+  padding: 0 16px;
+  overflow-x: hidden;
 }
 
 .hero-content {
   position: relative;
+  width: 100%;
+  max-width: 100%;
 }
 
 .home-title {
@@ -200,6 +204,9 @@ main {
   font-family: var(--font-primary);
   font-weight: bold;
   color: white;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .hero-subtitle {
@@ -211,8 +218,11 @@ main {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: max-content;
+  width: calc(100% - 16px);
+  max-width: 100%;
   transform: translate(-50%, -50%);
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .projects-stage {
@@ -253,6 +263,14 @@ main {
   .home-title,
   .hero-subtitle {
     font-size: clamp(56px, 10vw, 96px);
+  }
+}
+
+@media (max-width: 600px) {
+  .home-title,
+  .hero-subtitle {
+    font-size: clamp(34px, 14vw, 64px);
+    line-height: 0.95;
   }
 }
 </style>
