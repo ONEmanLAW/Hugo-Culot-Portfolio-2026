@@ -144,11 +144,11 @@ export function useHomeAnimations(
           if (u <= 100) {
             projectOneRotation = mix(0, 360, progressBetween(u, 0, 100));
           } else if (u <= 300) {
-            projectOneRotation = mix(360, 1080, progressBetween(u, 100, 300));
+            projectOneRotation = mix(360, 720, progressBetween(u, 100, 300));
           } else if (u <= 500) {
-            projectOneRotation = mix(1080, 1440, progressBetween(u, 300, 500));
+            projectOneRotation = mix(720, 1080, progressBetween(u, 300, 500));
           } else {
-            projectOneRotation = 1440;
+            projectOneRotation = 1080;
           }
 
           gsap.set(".project-one-section .vinyl-disc", {
@@ -173,17 +173,17 @@ export function useHomeAnimations(
             } else if (u <= 700) {
               projectTwoRotation = mix(
                 360,
-                1080,
+                720,
                 progressBetween(u, 500, 700)
               );
             } else if (u <= 900) {
               projectTwoRotation = mix(
+                720,
                 1080,
-                1440,
                 progressBetween(u, 700, 900)
               );
             } else {
-              projectTwoRotation = 1440;
+              projectTwoRotation = 1080;
             }
 
             gsap.set(".project-two-section .vinyl-disc", {
@@ -213,17 +213,17 @@ export function useHomeAnimations(
             } else if (u <= 1100) {
               projectThreeRotation = mix(
                 360,
-                1080,
+                720,
                 progressBetween(u, 900, 1100)
               );
             } else if (u <= 1300) {
               projectThreeRotation = mix(
+                720,
                 1080,
-                1440,
                 progressBetween(u, 1100, 1300)
               );
             } else {
-              projectThreeRotation = hasFourthProject.value ? 1440 : 1080;
+              projectThreeRotation = hasFourthProject.value ? 1080 : 720;
             }
 
             gsap.set(".project-three-section .vinyl-disc", {
@@ -253,11 +253,11 @@ export function useHomeAnimations(
             } else if (u <= 1500) {
               projectFourRotation = mix(
                 360,
-                1080,
+                720,
                 progressBetween(u, 1300, 1500)
               );
             } else {
-              projectFourRotation = 1080;
+              projectFourRotation = 720;
             }
 
             gsap.set(".project-four-section .vinyl-disc", {
