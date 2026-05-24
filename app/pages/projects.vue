@@ -1,11 +1,40 @@
+<script setup lang="ts">
+import VinylSleeve from "~/components/VinylSleeve.vue";
+
+const { client } = usePrismic();
+
+const { data: projects } = await useAsyncData("all-projects", () =>
+  client.getAllByType("project")
+);
+
+useSeoMeta({
+  title: "Projets",
+});
+</script>
+
 <template>
   <main class="projects-page">
-    
     <PageReveal />
     <AppNavbar />
-    <section class="projects-hero">
-      <h1>Projets</h1>
-      <p>Page en construction</p>
+
+    <section class="projects-grid-section">
+      <div class="projects-grid">
+        <div
+          v-for="(project, i) in projects"
+          :key="project.id"
+          class="grid-item"
+          :class="`grid-item-${(i % 6) + 1}`"
+        >
+          <VinylSleeve
+            :image="project.data.image"
+            :title="project.data.title"
+            :year="project.data.year"
+            :tags="project.data.tags"
+            :primary-color="project.data.main_color"
+            :secondary-color="project.data.secondary_color"
+          />
+        </div>
+      </div>
     </section>
   </main>
 </template>
@@ -13,38 +42,62 @@
 <style scoped>
 .projects-page {
   min-height: 100vh;
-  background: black;
-  color: white;
+  background: #c9bfb0;
+  padding: 160px 80px 120px;
 }
 
-nav {
-  position: fixed;
-  top: 0;
-  left: 0;
+.projects-grid-section {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 100px;
+  row-gap: 120px;
+}
+
+.grid-item {
   width: 100%;
-  z-index: 100;
-  padding: 16px 24px;
-  display: flex;
-  justify-content: space-between;
+  max-width: 320px;
+  justify-self: center;
 }
 
-.projects-hero {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
-  text-align: center;
+/* Décalages verticaux pour effet asymétrique */
+.grid-item-1 { transform: translateY(0); }
+.grid-item-2 { transform: translateY(80px); }
+.grid-item-3 { transform: translateY(0); }
+.grid-item-4 { transform: translateY(40px); }
+.grid-item-5 { transform: translateY(120px); }
+.grid-item-6 { transform: translateY(40px); }
+
+@media (max-width: 1200px) {
+  .projects-grid {
+    column-gap: 60px;
+  }
 }
 
-.projects-hero h1 {
-  font-size: 128px;
-  font-family: var(--font-primary);
+@media (max-width: 900px) {
+  .projects-page {
+    padding: 100px 24px 80px;
+  }
+
+  .projects-grid {
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 40px;
+    row-gap: 80px;
+  }
+
+  .grid-item {
+    transform: none !important;
+  }
 }
 
-.projects-hero p {
-  font-size: 24px;
-  font-family: var(--font-secondary);
+@media (max-width: 560px) {
+  .projects-grid {
+    grid-template-columns: 1fr;
+    row-gap: 60px;
+  }
 }
 </style>
