@@ -15,6 +15,9 @@ const props = defineProps<{
   secondaryColor?: string | null;
 }>();
 
+const DISC_REST_X = 40;
+const DISC_HOVER_X = 65;
+
 const sleeve = ref<HTMLElement | null>(null);
 const disc = ref<HTMLElement | null>(null);
 const discInner = ref<HTMLElement | null>(null);
@@ -35,52 +38,53 @@ const sleeveStyles = computed(() => ({
 }));
 
 let hoverTl: gsap.core.Timeline | null = null;
+let rotationTween: gsap.core.Tween | null = null;
 
 const handleEnter = () => {
   hoverTl?.kill();
+  rotationTween?.kill();
 
   hoverTl = gsap.timeline();
-  hoverTl
-    .to(disc.value, {
-      xPercent: 30,
-      duration: 0.8,
-      ease: "power3.out",
-    })
-    .to(
-      discInner.value,
-      {
-        rotation: 360,
-        duration: 1.6,
-        ease: "none",
-        repeat: -1,
-      },
-      0
-    );
+  hoverTl.to(disc.value, {
+    xPercent: DISC_HOVER_X,
+    duration: 0.8,
+    ease: "power3.out",
+  });
+
+  rotationTween = gsap.to(discInner.value, {
+    rotation: "+=360",
+    duration: 2,
+    ease: "none",
+    repeat: -1,
+  });
 };
 
 const handleLeave = () => {
   hoverTl?.kill();
+  rotationTween?.kill();
 
   hoverTl = gsap.timeline();
-  hoverTl
-    .to(disc.value, {
-      xPercent: 0,
-      duration: 0.6,
-      ease: "power3.inOut",
-    })
-    .to(
-      discInner.value,
-      {
-        rotation: 0,
-        duration: 0.6,
-        ease: "power2.out",
-      },
-      0
-    );
+  hoverTl.to(disc.value, {
+    xPercent: DISC_REST_X,
+    duration: 0.6,
+    ease: "power3.inOut",
+  });
+
+  rotationTween = gsap.to(discInner.value, {
+    rotation: 0,
+    duration: 0.5,
+    ease: "power2.out",
+  });
 };
+
+onMounted(() => {
+  gsap.set(disc.value, { xPercent: DISC_REST_X });
+  gsap.set(discInner.value, { rotation: 0 });
+});
 
 onUnmounted(() => {
   hoverTl?.kill();
+  rotationTween?.kill();
 });
 </script>
 
@@ -205,12 +209,11 @@ onUnmounted(() => {
 
 .sleeve-disc {
   position: absolute;
-  top: 12%;
-  left: 12%;
-  width: 76%;
-  height: 76%;
+  top: 12.5%;
+  left: 12.5%;
+  width: 75%;
+  height: 75%;
   z-index: 1;
-  transform: translateX(0);
   will-change: transform;
 }
 
