@@ -1,17 +1,47 @@
 <script setup lang="ts">
 const route = useRoute();
+const router = useRouter();
 
 const links = [
   { label: "HOME", to: "/" },
-  { label: "PROJECTS", to: "/projects" },
+  { label: "PROJECTS", to: "/", scrollTo: "projects-section" },
 ];
 
-const isActive = (to: string) => {
-  if (to === "/") {
+const isActive = (link: { to: string; scrollTo?: string }) => {
+  if (link.scrollTo) {
+    // PROJECTS n'est jamais "actif" via la route, on garde l'état neutre
+    return false;
+  }
+  if (link.to === "/") {
     return route.path === "/";
   }
+  return route.path.startsWith(link.to);
+};
 
-  return route.path.startsWith(to);
+const handleClick = async (
+  e: MouseEvent,
+  link: { to: string; scrollTo?: string }
+) => {
+  if (!link.scrollTo) return;
+
+  e.preventDefault();
+
+  // Si on n'est pas sur la home, on y va d'abord
+  if (route.path !== link.to) {
+    await router.push(link.to);
+    // Laisse le temps au DOM de monter la section
+    await nextTick();
+    setTimeout(() => scrollToSection(link.scrollTo!), 100);
+    return;
+  }
+
+  scrollToSection(link.scrollTo);
+};
+
+const scrollToSection = (id: string) => {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.scrollIntoView({ behavior: "smooth", block: "start" });
 };
 </script>
 
@@ -20,10 +50,11 @@ const isActive = (to: string) => {
     <nav class="site-nav" aria-label="Navigation principale">
       <NuxtLink
         v-for="link in links"
-        :key="link.to"
+        :key="link.label"
         :to="link.to"
         class="site-nav-link"
-        :class="{ 'is-active': isActive(link.to) }"
+        :class="{ 'is-active': isActive(link) }"
+        @click="handleClick($event, link)"
       >
         <span class="site-nav-link-text">{{ link.label }}</span>
       </NuxtLink>

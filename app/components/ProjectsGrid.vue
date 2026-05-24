@@ -7,7 +7,7 @@ defineProps<{
 </script>
 
 <template>
-  <section class="projects-grid-section">
+  <section id="projects-section" class="projects-grid-section">
     <div class="projects-grid">
       <div
         v-for="(project, i) in projects"
