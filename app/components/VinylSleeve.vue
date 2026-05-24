@@ -190,10 +190,11 @@ onUnmounted(() => {
 
 .sleeve-tag {
   font-family: var(--font-primary);
-  font-size: 14px;
+  font-size: clamp(16px, 1.3vw, 22px);
   color: white;
   background: rgba(0, 0, 0, 0.85);
-  padding: 5px 10px 4px;
+  border: 2px solid white;
+  padding: 8px 14px 6px;
   line-height: 1;
   text-transform: uppercase;
 }
