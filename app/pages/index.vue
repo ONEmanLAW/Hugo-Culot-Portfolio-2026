@@ -2,12 +2,18 @@
 import { asImageSrc, isFilled } from "@prismicio/client";
 import { components } from "~/slices";
 import TopProjectSection from "~/components/TopProjectSection.vue";
+import ProjectsGrid from "~/components/ProjectsGrid.vue";
 import PageReveal from "~/components/PageReveal.vue";
 import { useHomeAnimations } from "~/composables/useHomeAnimations";
 
 const { client } = usePrismic();
+
 const { data: page } = await useAsyncData("home", () =>
   client.getSingle("home")
+);
+
+const { data: allProjects } = await useAsyncData("all-projects-home", () =>
+  client.getAllByType("project")
 );
 
 useSeoMeta({
@@ -157,6 +163,9 @@ onUnmounted(() => {
       :secondary-color="firstHighlightedProject.secondary_color"
       index-label="01/04"
     />
+
+    <!-- Grille de tous les projets, accessible au scroll -->
+    <ProjectsGrid v-if="allProjects?.length" :projects="allProjects" />
 
     <SliceZone :slices="page?.data.slices ?? []" :components="components" />
   </main>
