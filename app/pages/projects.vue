@@ -66,40 +66,36 @@ useSeoMeta({
   justify-self: center;
 }
 
-.grid-col-1 {
-  transform: translateY(0);
-}
-
-.grid-col-2 {
-  transform: translateY(clamp(80px, 10vw, 180px));
-}
-
-.grid-col-3 {
-  transform: translateY(0);
-}
+.grid-col-1 { transform: translateY(0); }
+.grid-col-2 { transform: translateY(clamp(80px, 10vw, 180px)); }
+.grid-col-3 { transform: translateY(0); }
 
 /* === 2 colonnes === */
 @media (max-width: 1100px) {
   .projects-grid {
     grid-template-columns: repeat(2, 1fr);
-    column-gap: clamp(40px, 6vw, 80px);
-    row-gap: clamp(60px, 8vw, 100px);
+    column-gap: clamp(100px, 14vw, 180px); /* plus de gap pour le vinyle */
+    row-gap: clamp(60px, 8vw, 120px);
   }
 
   .grid-item {
-    max-width: clamp(280px, 36vw, 420px);
-    transform: none !important;
+    /* plus petit pour laisser la place au vinyle qui dépasse */
+    max-width: clamp(220px, 28vw, 340px);
   }
+
+  /* diagonale conservée via position dans la grille */
+  .grid-item:nth-child(odd)  { transform: translateY(0); }
+  .grid-item:nth-child(even) { transform: translateY(clamp(60px, 8vw, 120px)); }
 }
 
 /* === 1 colonne === */
 @media (max-width: 640px) {
   .projects-page {
-    padding: 100px 24px 80px;
+    padding: 100px 0 80px;
   }
 
   .projects-grid-section {
-    padding: 0;
+    padding: 0 24px;
   }
 
   .projects-grid {
@@ -108,7 +104,10 @@ useSeoMeta({
   }
 
   .grid-item {
-    max-width: none;
+    /* 65% de la largeur, aligné à gauche → les 35% à droite pour le vinyle */
+    max-width: 65%;
+    justify-self: start;
+    transform: none !important;
   }
 }
 </style>
