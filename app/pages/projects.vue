@@ -48,21 +48,21 @@ useSeoMeta({
 }
 
 .projects-grid-section {
-  max-width: 1500px;
+  max-width: 1800px;
   margin: 0 auto;
-  padding: 0 120px;
+  padding: 0 clamp(40px, 6vw, 120px);
 }
 
 .projects-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  column-gap: 120px;
-  row-gap: 140px;
+  column-gap: clamp(60px, 8vw, 160px);
+  row-gap: clamp(80px, 10vw, 180px);
 }
 
 .grid-item {
   width: 100%;
-  max-width: 420px;
+  max-width: clamp(280px, 22vw, 480px);
   justify-self: center;
 }
 
@@ -71,28 +71,29 @@ useSeoMeta({
 }
 
 .grid-col-2 {
-  transform: translateY(160px);
+  transform: translateY(clamp(80px, 10vw, 180px));
 }
 
 .grid-col-3 {
   transform: translateY(0);
 }
 
-@media (max-width: 1300px) {
-  .projects-grid-section {
-    padding: 0 80px;
-  }
-
+/* === 2 colonnes === */
+@media (max-width: 1100px) {
   .projects-grid {
-    column-gap: 80px;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: clamp(40px, 6vw, 80px);
+    row-gap: clamp(60px, 8vw, 100px);
   }
 
   .grid-item {
-    max-width: 360px;
+    max-width: clamp(280px, 36vw, 420px);
+    transform: none !important;
   }
 }
 
-@media (max-width: 900px) {
+/* === 1 colonne === */
+@media (max-width: 640px) {
   .projects-page {
     padding: 100px 24px 80px;
   }
@@ -102,21 +103,12 @@ useSeoMeta({
   }
 
   .projects-grid {
-    grid-template-columns: repeat(2, 1fr);
-    column-gap: 60px;
-    row-gap: 80px;
+    grid-template-columns: 1fr;
+    row-gap: 60px;
   }
 
   .grid-item {
     max-width: none;
-    transform: none !important;
-  }
-}
-
-@media (max-width: 560px) {
-  .projects-grid {
-    grid-template-columns: 1fr;
-    row-gap: 60px;
   }
 }
 </style>
