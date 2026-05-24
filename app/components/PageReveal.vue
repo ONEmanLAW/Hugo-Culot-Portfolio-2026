@@ -3,20 +3,21 @@ import { gsap } from "gsap";
 
 const emit = defineEmits<{
   done: [];
+  covered: []; // nouveau : émis quand l'écran est entièrement couvert
 }>();
 
 const pageLoader = ref<HTMLElement | null>(null);
 const pageLoaderLine = ref<HTMLElement | null>(null);
 
-onMounted(async () => {
-  if ("scrollRestoration" in window.history) {
-    window.history.scrollRestoration = "manual";
-  }
-
+const play = async (options: { scrollTop?: boolean } = { scrollTop: true }) => {
   await nextTick();
 
   if (pageLoader.value) {
-    gsap.set(pageLoader.value, { yPercent: 0, autoAlpha: 1 });
+    gsap.set(pageLoader.value, {
+      yPercent: 0,
+      autoAlpha: 1,
+      display: "flex",
+    });
   }
 
   if (pageLoaderLine.value) {
@@ -26,14 +27,16 @@ onMounted(async () => {
     });
   }
 
-  window.scrollTo(0, 0);
+  // Scroll en haut uniquement si demandé (cas HOME / refresh)
+  if (options.scrollTop) {
+    window.scrollTo(0, 0);
+  }
 
   const tl = gsap.timeline({
     onComplete: () => {
       if (pageLoader.value) {
         gsap.set(pageLoader.value, { display: "none" });
       }
-
       emit("done");
     },
   });
@@ -48,6 +51,10 @@ onMounted(async () => {
       transformOrigin: "right center",
       duration: 0.35,
       ease: "power2.in",
+      onComplete: () => {
+        // À ce moment le loader couvre toujours toute la page
+        emit("covered");
+      },
     })
     .to(
       pageLoader.value,
@@ -58,7 +65,16 @@ onMounted(async () => {
       },
       "-=0.05"
     );
+};
+
+onMounted(async () => {
+  if ("scrollRestoration" in window.history) {
+    window.history.scrollRestoration = "manual";
+  }
+  await play({ scrollTop: true });
 });
+
+defineExpose({ play });
 </script>
 
 <template>

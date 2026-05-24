@@ -25,6 +25,7 @@ useSeoMeta({
 });
 
 const homePage = ref<HTMLElement | null>(null);
+const pageRevealRef = ref<InstanceType<typeof PageReveal> | null>(null);
 
 const highlightedProjects = computed(() => {
   return page.value?.data.highlighted_projects ?? [];
@@ -77,9 +78,49 @@ const { initHomeAnimations, destroyHomeAnimations } = useHomeAnimations(
   hasFourthHighlightedProject
 );
 
+// État pour gérer le scroll pendant le reveal
+const pendingScrollTo = ref<string | null>(null);
+const skipNextInit = ref(false);
+
 const handleRevealDone = () => {
+  // Si on va directement vers projects, on n'init PAS les anims des top projects
+  // (sinon ScrollTrigger avec pin nous renvoie en arrière)
+  if (skipNextInit.value) {
+    skipNextInit.value = false;
+    return;
+  }
   initHomeAnimations();
 };
+
+// Appelé quand le loader couvre tout l'écran (à mi-animation)
+const handleRevealCovered = () => {
+  if (pendingScrollTo.value) {
+    const el = document.getElementById(pendingScrollTo.value);
+    el?.scrollIntoView({ behavior: "auto", block: "start" });
+    pendingScrollTo.value = null;
+  } else {
+    window.scrollTo(0, 0);
+  }
+};
+
+// HOME : rejoue le reveal, revient en haut, relance les anims
+const replayHomeReveal = () => {
+  destroyHomeAnimations();
+  pendingScrollTo.value = null;
+  skipNextInit.value = false;
+  pageRevealRef.value?.play({ scrollTop: false });
+};
+
+// PROJECTS : rejoue le reveal, scroll vers la section, SANS recréer les anims
+const replayHomeRevealAndScroll = (sectionId: string) => {
+  destroyHomeAnimations();
+  pendingScrollTo.value = sectionId;
+  skipNextInit.value = true; // 🔑 on ne recrée pas les anims top projects
+  pageRevealRef.value?.play({ scrollTop: false });
+};
+
+provide("replayHomeReveal", replayHomeReveal);
+provide("replayHomeRevealAndScroll", replayHomeRevealAndScroll);
 
 onUnmounted(() => {
   destroyHomeAnimations();
@@ -88,7 +129,11 @@ onUnmounted(() => {
 
 <template>
   <main ref="homePage">
-    <PageReveal @done="handleRevealDone" />
+    <PageReveal
+      ref="pageRevealRef"
+      @done="handleRevealDone"
+      @covered="handleRevealCovered"
+    />
 
     <AppNavbar />
 

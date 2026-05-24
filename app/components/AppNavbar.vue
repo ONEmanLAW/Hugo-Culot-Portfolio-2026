@@ -2,46 +2,49 @@
 const route = useRoute();
 const router = useRouter();
 
+const replayHomeReveal = inject<(() => void) | null>("replayHomeReveal", null);
+const replayHomeRevealAndScroll = inject<((id: string) => void) | null>(
+  "replayHomeRevealAndScroll",
+  null
+);
+
 const links = [
-  { label: "HOME", to: "/" },
-  { label: "PROJECTS", to: "/", scrollTo: "projects-section" },
+  { label: "HOME", to: "/", action: "replay" as const },
+  { label: "PROJECTS", to: "/", action: "scroll" as const, scrollTo: "projects-section" },
 ];
 
-const isActive = (link: { to: string; scrollTo?: string }) => {
-  if (link.scrollTo) {
-    // PROJECTS n'est jamais "actif" via la route, on garde l'état neutre
-    return false;
-  }
-  if (link.to === "/") {
-    return route.path === "/";
-  }
+const isActive = (link: { to: string; action: string }) => {
+  if (link.action === "scroll") return false;
+  if (link.to === "/") return route.path === "/";
   return route.path.startsWith(link.to);
 };
 
 const handleClick = async (
   e: MouseEvent,
-  link: { to: string; scrollTo?: string }
+  link: { to: string; action: string; scrollTo?: string }
 ) => {
-  if (!link.scrollTo) return;
-
   e.preventDefault();
 
-  // Si on n'est pas sur la home, on y va d'abord
-  if (route.path !== link.to) {
-    await router.push(link.to);
-    // Laisse le temps au DOM de monter la section
-    await nextTick();
-    setTimeout(() => scrollToSection(link.scrollTo!), 100);
+  if (link.action === "replay") {
+    if (route.path !== "/") {
+      await router.push("/");
+      return;
+    }
+    replayHomeReveal?.();
     return;
   }
 
-  scrollToSection(link.scrollTo);
-};
-
-const scrollToSection = (id: string) => {
-  const el = document.getElementById(id);
-  if (!el) return;
-  el.scrollIntoView({ behavior: "smooth", block: "start" });
+  if (link.action === "scroll" && link.scrollTo) {
+    if (route.path !== link.to) {
+      await router.push(link.to);
+      // après navigation, attendre que le reveal initial soit fini puis scroll
+      setTimeout(() => {
+        document.getElementById(link.scrollTo!)?.scrollIntoView({ behavior: "smooth" });
+      }, 1800);
+      return;
+    }
+    replayHomeRevealAndScroll?.(link.scrollTo);
+  }
 };
 </script>
 
@@ -61,6 +64,7 @@ const scrollToSection = (id: string) => {
     </nav>
   </header>
 </template>
+
 
 <style scoped>
 .site-header {
