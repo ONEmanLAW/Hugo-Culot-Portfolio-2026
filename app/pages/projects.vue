@@ -23,7 +23,7 @@ useSeoMeta({
           v-for="(project, i) in projects"
           :key="project.id"
           class="grid-item"
-          :class="`grid-item-${(i % 6) + 1}`"
+          :class="`grid-col-${(i % 3) + 1}`"
         >
           <VinylSleeve
             :image="project.data.image"
@@ -47,15 +47,15 @@ useSeoMeta({
 }
 
 .projects-grid-section {
-  max-width: 1400px;
+  max-width: 1300px;
   margin: 0 auto;
 }
 
 .projects-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  column-gap: 100px;
-  row-gap: 120px;
+  column-gap: 120px;
+  row-gap: 100px;
 }
 
 .grid-item {
@@ -64,15 +64,20 @@ useSeoMeta({
   justify-self: center;
 }
 
-/* Décalages verticaux pour effet asymétrique */
-.grid-item-1 { transform: translateY(0); }
-.grid-item-2 { transform: translateY(80px); }
-.grid-item-3 { transform: translateY(0); }
-.grid-item-4 { transform: translateY(40px); }
-.grid-item-5 { transform: translateY(120px); }
-.grid-item-6 { transform: translateY(40px); }
+/* Décalage vertical asymétrique par colonne */
+.grid-col-1 {
+  transform: translateY(0);
+}
 
-@media (max-width: 1200px) {
+.grid-col-2 {
+  transform: translateY(140px);
+}
+
+.grid-col-3 {
+  transform: translateY(0);
+}
+
+@media (max-width: 1100px) {
   .projects-grid {
     column-gap: 60px;
   }

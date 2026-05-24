@@ -42,7 +42,7 @@ const handleEnter = () => {
   hoverTl = gsap.timeline();
   hoverTl
     .to(disc.value, {
-      xPercent: 55,
+      xPercent: 30,
       duration: 0.8,
       ease: "power3.out",
     })
@@ -112,7 +112,6 @@ onUnmounted(() => {
           :alt="title || 'Project'"
           class="sleeve-image"
         />
-        <div class="sleeve-stripes"></div>
 
         <p class="sleeve-year">{{ year }}</p>
 
@@ -163,63 +162,42 @@ onUnmounted(() => {
   z-index: 1;
 }
 
-.sleeve-stripes {
-  position: absolute;
-  inset: 0;
-  background-image: repeating-linear-gradient(
-    90deg,
-    transparent 0 18%,
-    rgba(180, 180, 180, 0.35) 18% 22%,
-    transparent 22% 40%
-  );
-  pointer-events: none;
-  z-index: 2;
-}
-
 .sleeve-year {
   position: absolute;
-  top: 14px;
-  right: 14px;
+  top: 16px;
+  right: 16px;
   font-family: var(--font-primary);
-  font-size: clamp(16px, 1.2vw, 22px);
+  font-size: clamp(22px, 1.8vw, 30px);
   color: white;
   border: 2px solid white;
-  padding: 4px 8px 2px;
+  padding: 6px 10px 3px;
   line-height: 1;
   z-index: 3;
 }
 
 .sleeve-tags {
   position: absolute;
-  bottom: 14px;
-  right: 14px;
+  bottom: 16px;
+  right: 16px;
   display: flex;
   gap: 6px;
   z-index: 3;
-  opacity: 0;
-  transform: translateY(8px);
-  transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.vinyl-sleeve:hover .sleeve-tags {
-  opacity: 1;
-  transform: translateY(0);
 }
 
 .sleeve-tag {
   font-family: var(--font-primary);
-  font-size: 13px;
+  font-size: 14px;
   color: white;
   background: rgba(0, 0, 0, 0.85);
-  padding: 4px 8px 3px;
+  padding: 5px 10px 4px;
   line-height: 1;
   text-transform: uppercase;
 }
 
 .sleeve-title {
-  margin-top: 16px;
+  margin-top: 18px;
   font-family: var(--font-primary);
-  font-size: clamp(20px, 1.6vw, 28px);
+  font-size: clamp(22px, 1.6vw, 30px);
   color: white;
   text-transform: uppercase;
   line-height: 1;
@@ -227,7 +205,10 @@ onUnmounted(() => {
 
 .sleeve-disc {
   position: absolute;
-  inset: 0;
+  top: 12%;
+  left: 12%;
+  width: 76%;
+  height: 76%;
   z-index: 1;
   transform: translateX(0);
   will-change: transform;
@@ -244,9 +225,6 @@ onUnmounted(() => {
       rgba(0, 0, 0, 0.18) 1px 4px
     ),
     radial-gradient(circle at center, #161616 0%, #050505 80%, #000 100%);
-  box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.06),
-    0 12px 24px rgba(0, 0, 0, 0.35);
   position: relative;
   will-change: transform;
 }
